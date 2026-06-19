@@ -40,6 +40,35 @@
 **Rationale:** The report source can stay simple (`PARAMETERS p_name ...`), while the user-facing prompt is maintained through ABAP text elements. In abapGit this is persisted as a TPOOL `ID=S` item in `src/zr_simple_hello.prog.xml`.  
 **Validation:** `ZR_SIMPLE_HELLO` syntax check returned no messages and activation succeeded in the trial system. Direct text element update/verification through `SetTextElements`/`GetTextElements` was blocked by the trial system WebSocket endpoint returning a bad handshake.
 
+### 2026-06-20: Parker — Decision Record: Issue #5
+**Author:** Parker (ABAP Developer)  
+**Issue:** #5 — "Hello world needs to be better"
+
+#### Context
+The existing report only printed `Hello {name}`. The request was to also show flight data from the SFLIGHT model to demonstrate data retrieval.
+
+#### Columns chosen
+`CARRID`, `CONNID`, `FLDATE`, `PRICE`, `CURRENCY`, `SEATSOCC`, `SEATSMAX`
+
+**Why:** These are the most meaningful flight-identity and capacity columns. CARRID (airline) + CONNID (flight number) + FLDATE identify a flight uniquely. PRICE/CURRENCY show the fare. SEATSOCC/SEATSMAX give occupancy — interesting for a demo. PLANETYPE and PAYMENTSUM were omitted to keep the line width manageable on a classic WRITE report.
+
+#### Row limit: UP TO 20 ROWS
+20 rows is enough to demonstrate data retrieval while keeping spool output readable. The SFLIGHT demo table has many rows across airlines/dates.
+
+#### Why classic WRITE (not ALV)
+The report is explicitly named "simple" and the task brief says "Keep it classic-report simple — no ALV/OO grid needed". Classic WRITE with column positions is the simplest, most readable approach for a demo. ALV would require 30+ extra lines of boilerplate.
+
+#### Order: CARRID, CONNID, FLDATE
+Natural grouping — same airline/flight across dates appears together, making the output easy to read.
+
+#### Empty case
+`IF lt_flights IS INITIAL` → `WRITE / 'No flights found.'` — defensive and self-explanatory.
+
+#### Modern ABAP used
+- Inline declaration: `INTO TABLE @DATA(lt_flights)` and `INTO DATA(ls_flight)`
+- `CONV string(...)` for parameter conversion
+- String template `|Hello { lv_name }|` for greeting
+
 ## Governance
 
 - All meaningful changes require team consensus
