@@ -18,8 +18,8 @@
     <item>
      <ID>S</ID>
      <KEY>P_NAME  </KEY>
-     <ENTRY>Name</ENTRY>
-     <LENGTH>4</LENGTH>
+     <ENTRY>Please enter your name.</ENTRY>
+     <LENGTH>23</LENGTH>
     </item>
    </TPOOL>
   </asx:values>
