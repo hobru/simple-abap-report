@@ -15,6 +15,12 @@
      <ENTRY>Simple Hello World Report</ENTRY>
      <LENGTH>25</LENGTH>
     </item>
+    <item>
+     <ID>S</ID>
+     <KEY>P_NAME  </KEY>
+     <ENTRY>Name</ENTRY>
+     <LENGTH>4</LENGTH>
+    </item>
    </TPOOL>
   </asx:values>
  </asx:abap>
